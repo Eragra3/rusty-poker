@@ -1,34 +1,71 @@
-use actix_web::{App, HttpServer, Responder, HttpResponse, http};
-use actix_web::web::{Path, resource};
+use actix_web::middleware::Logger;
+use actix_web::web::{resource, Data, Json, Path};
+use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 
-use rusty_poker::database::{MockDatabase};
+use serde::{Deserialize};
+
+use rusty_poker::database::{MockDatabase, PokerDatabase};
+use rusty_poker::poker::VoteValue;
+
+use std::sync::Mutex;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
-fn hello_get() -> &'static str {
+fn hello_get() -> impl Responder {
     "Hello, world!"
 }
 
-fn version_get() -> &'static str {
+fn version_get() -> impl Responder {
     VERSION
 }
 
-fn votes_get(params: Path<i32>) -> HttpResponse {
+#[derive(Deserialize)]
+struct SetVote {
+    value: VoteValue,
+}
+
+fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
+    let vote = data
+        .lock()
+        .unwrap()
+        .set_vote_value(params.0, params.1, body.value);
+    match vote {
+        Ok(vote) => HttpResponse::Ok().json(vote),
+        Err(msg) => HttpResponse::UnprocessableEntity().body(msg),
+    }
+}
+
+fn voting_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
     let voting_id = params.into_inner();
-    let db = MockDatabase::new();
-    let votes = db.get_votes(voting_id);
+    let votes = data.lock().unwrap().get_voting(voting_id);
     match votes {
-        Some(votes) => HttpResponse::Ok().json(votes.clone()),
-        _ => HttpResponse::NotFound().finish()
+        Some(votes) => HttpResponse::Ok().json(votes),
+        _ => HttpResponse::NotFound().finish(),
+    }
+}
+
+fn voting_votes_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
+    let voting_id = params.into_inner();
+    let votes = data.lock().unwrap().get_votes(voting_id);
+    match votes {
+        Some(votes) => HttpResponse::Ok().json(votes),
+        _ => HttpResponse::NotFound().finish(),
     }
 }
 
 fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(resource("/hello").to(hello_get))
-            .service(resource("/version").to(version_get))
-            .service(resource("/votes/{voting_id}").to(votes_get))
+            .wrap(Logger::default())
+            .data(Mutex::new(MockDatabase::new()))
+            .service(resource("/hello").route(web::get().to(hello_get)))
+            .service(resource("/version").route(web::get().to(version_get)))
+            .service(resource("/voting/{id}").route(web::get().to(voting_get)))
+            .service(resource("/voting/{id}/votes").route(web::get().to(voting_votes_get)))
+            .service(
+                resource("/voting/{voting_id}/vote/{vote_id}/set_vote")
+                    .route(web::post().to(vote_set)),
+            )
     })
     .bind("127.0.0.1:8080")
     .unwrap()
