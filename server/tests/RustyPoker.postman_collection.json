@@ -1,0 +1,71 @@
+{
+	"variables": [],
+	"info": {
+		"name": "RustyPoker",
+		"_postman_id": "2780cc74-a220-1685-7121-a2717d13e236",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "vote-set Value(42)",
+			"request": {
+				"url": "localhost:8080/voting/1/vote/3/set_vote",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": {\n\t    \"Value\": 42\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "vote-set Pending",
+			"request": {
+				"url": "localhost:8080/voting/1/vote/4/set_vote",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Pending\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "voting-get",
+			"request": {
+				"url": "localhost:8080/voting/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
