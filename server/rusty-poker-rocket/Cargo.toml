@@ -1,0 +1,13 @@
+[package]
+name = "rusty-poker-rocket"
+version = "0.1.0"
+authors = ["Daniel Bider <bider.daniel@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = "0.4.1"
+rocket_contrib = "0.4.1"
+serde = { version = "1.0", features = ["derive"] }
+rusty-poker = { path = "../rusty-poker" }

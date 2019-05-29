@@ -1,15 +1,11 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
-#[macro_use]
-extern crate rocket;
-
+use rocket::{get, routes};
 use rocket_contrib::json::Json;
 
-mod database;
-mod poker;
+use rusty_poker::database::MockDatabase;
+use rusty_poker::poker::{Vote, VoteValue, Voting};
 
-use database::MockDatabase;
-use poker::{Vote, VoteValue, Voting};
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -24,13 +20,13 @@ fn get_version() -> &'static str {
 }
 
 #[get("/<voting_id>")]
-fn get_votes(voting_id: i32) -> Json<Vec<Vote>> {
+fn get_votes(voting_id: i32) -> Option<Json<Vec<Vote>>> {
     let db = MockDatabase::new();
     let votes = db.get_votes(voting_id);
-    Json(match votes {
-        Some(votes) => votes.clone(),
-        _ => Vec::new(),
-    })
+    match votes {
+        Some(votes) => Some(Json(votes.clone())),
+        _ => None
+    }
 }
 
 fn main() {
