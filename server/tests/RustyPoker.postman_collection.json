@@ -51,7 +51,7 @@
 			},
 			"response": [
 				{
-					"id": "e2d89f6c-a0fe-4bc5-b028-3f8cfe7c9476",
+					"id": "f4e44084-1d45-4df6-a37b-bfd068013866",
 					"name": "vote-set Value(42)",
 					"originalRequest": {
 						"method": "POST",
@@ -99,13 +99,13 @@
 						},
 						{
 							"key": "date",
-							"value": "Thu, 30 May 2019 07:00:36 GMT",
+							"value": "Thu, 30 May 2019 09:40:33 GMT",
 							"name": "date",
 							"description": "The date and time that the message was sent"
 						}
 					],
 					"cookie": [],
-					"responseTime": 4,
+					"responseTime": 528,
 					"body": "{\"id\":3,\"value\":{\"Value\":42}}"
 				}
 			]
@@ -155,7 +155,7 @@
 			},
 			"response": [
 				{
-					"id": "960edc61-f322-4833-b6a7-7c06e98d30dd",
+					"id": "0a493248-347f-4517-be36-07edfbe7009b",
 					"name": "vote-set Pending",
 					"originalRequest": {
 						"method": "POST",
@@ -191,7 +191,7 @@
 					"header": [
 						{
 							"key": "content-length",
-							"value": "25",
+							"value": "26",
 							"name": "content-length",
 							"description": "The length of the response body in octets (8-bit bytes)"
 						},
@@ -203,14 +203,14 @@
 						},
 						{
 							"key": "date",
-							"value": "Thu, 30 May 2019 07:30:47 GMT",
+							"value": "Thu, 30 May 2019 09:40:48 GMT",
 							"name": "date",
 							"description": "The date and time that the message was sent"
 						}
 					],
 					"cookie": [],
-					"responseTime": 22,
-					"body": "{\"id\":4,\"value\":\"Coffee\"}"
+					"responseTime": 532,
+					"body": "{\"id\":4,\"value\":\"Pending\"}"
 				}
 			]
 		},
@@ -250,7 +250,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "localhost:8080/voting/1",
@@ -266,7 +266,7 @@
 			},
 			"response": [
 				{
-					"id": "edfca56d-e8d3-4f8a-8b0c-150a041cfab8",
+					"id": "98a7f5d0-40cb-4ecb-a4c1-2c220fd79dcd",
 					"name": "voting-get",
 					"originalRequest": {
 						"method": "GET",
@@ -278,7 +278,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "localhost:8080/voting/1",
@@ -299,7 +299,7 @@
 					"header": [
 						{
 							"key": "content-length",
-							"value": "207",
+							"value": "208",
 							"name": "content-length",
 							"description": "The length of the response body in octets (8-bit bytes)"
 						},
@@ -311,14 +311,14 @@
 						},
 						{
 							"key": "date",
-							"value": "Thu, 30 May 2019 09:06:40 GMT",
+							"value": "Thu, 30 May 2019 09:40:59 GMT",
 							"name": "date",
 							"description": "The date and time that the message was sent"
 						}
 					],
 					"cookie": [],
-					"responseTime": 531,
-					"body": "{\"id\":1,\"start_datetime\":\"2019-05-30T08:51:53.523174900Z\",\"votes\":[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":\"Pending\"},{\"id\":4,\"value\":{\"Value\":8}},{\"id\":5,\"value\":{\"Value\":13}}]}"
+					"responseTime": 527,
+					"body": "{\"id\":1,\"start_datetime\":\"2019-05-30T09:29:36.140481100Z\",\"votes\":[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":{\"Value\":42}},{\"id\":4,\"value\":\"Pending\"},{\"id\":5,\"value\":{\"Value\":13}}]}"
 				}
 			]
 		},
@@ -358,7 +358,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "localhost:8080/voting/1/votes",
@@ -375,7 +375,7 @@
 			},
 			"response": [
 				{
-					"id": "dd6dba18-c5b4-47bb-8bf7-a06783c629f7",
+					"id": "b00aca7e-cd95-4cd8-8db5-c77241bf27a3",
 					"name": "voting-get-votes",
 					"originalRequest": {
 						"method": "GET",
@@ -387,7 +387,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "localhost:8080/voting/1/votes",
@@ -409,7 +409,7 @@
 					"header": [
 						{
 							"key": "content-length",
-							"value": "140",
+							"value": "141",
 							"name": "content-length",
 							"description": "The length of the response body in octets (8-bit bytes)"
 						},
@@ -421,14 +421,14 @@
 						},
 						{
 							"key": "date",
-							"value": "Thu, 30 May 2019 09:06:18 GMT",
+							"value": "Thu, 30 May 2019 09:41:09 GMT",
 							"name": "date",
 							"description": "The date and time that the message was sent"
 						}
 					],
 					"cookie": [],
-					"responseTime": 535,
-					"body": "[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":\"Pending\"},{\"id\":4,\"value\":{\"Value\":8}},{\"id\":5,\"value\":{\"Value\":13}}]"
+					"responseTime": 512,
+					"body": "[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":{\"Value\":42}},{\"id\":4,\"value\":\"Pending\"},{\"id\":5,\"value\":{\"Value\":13}}]"
 				}
 			]
 		},
@@ -463,7 +463,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "localhost:8080/voting",
@@ -478,19 +478,20 @@
 			},
 			"response": [
 				{
-					"id": "5205e95d-bfb2-4b57-ac81-57e2034bf9a7",
+					"id": "2972c7fb-92f5-4a88-b039-e7d03bef356c",
 					"name": "voting-create",
 					"originalRequest": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"disabled": false
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "localhost:8080/voting",
@@ -510,7 +511,7 @@
 					"header": [
 						{
 							"key": "content-length",
-							"value": "69",
+							"value": "66",
 							"name": "content-length",
 							"description": "The length of the response body in octets (8-bit bytes)"
 						},
@@ -522,14 +523,14 @@
 						},
 						{
 							"key": "date",
-							"value": "Thu, 30 May 2019 09:02:58 GMT",
+							"value": "Thu, 30 May 2019 09:41:20 GMT",
 							"name": "date",
 							"description": "The date and time that the message was sent"
 						}
 					],
 					"cookie": [],
-					"responseTime": 42,
-					"body": "{\"id\":8,\"start_datetime\":\"2019-05-30T09:02:58.049504100Z\",\"votes\":[]}"
+					"responseTime": 525,
+					"body": "{\"id\":6,\"start_datetime\":\"2019-05-30T09:41:20.677156Z\",\"votes\":[]}"
 				}
 			]
 		}
