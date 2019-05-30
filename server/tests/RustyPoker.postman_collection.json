@@ -1,71 +1,537 @@
 {
-	"variables": [],
 	"info": {
 		"name": "RustyPoker",
-		"_postman_id": "2780cc74-a220-1685-7121-a2717d13e236",
+		"_postman_id": "b782d985-62bb-3f42-892d-cfdd44f6f7fa",
 		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "vote-set Value(42)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(JSON.stringify(JSON.parse(pm.response.text()))).to.include(\"\\\"value\\\":{\\\"Value\\\":42}\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "localhost:8080/voting/1/vote/3/set_vote",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"value\": {\n\t    \"Value\": 42\n\t}\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/voting/1/vote/3/set_vote",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting",
+						"1",
+						"vote",
+						"3",
+						"set_vote"
+					]
+				}
 			},
-			"response": []
+			"response": [
+				{
+					"id": "e2d89f6c-a0fe-4bc5-b028-3f8cfe7c9476",
+					"name": "vote-set Value(42)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": {\n\t    \"Value\": 42\n\t}\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/voting/1/vote/3/set_vote",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"voting",
+								"1",
+								"vote",
+								"3",
+								"set_vote"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "29",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Thu, 30 May 2019 07:00:36 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						}
+					],
+					"cookie": [],
+					"responseTime": 4,
+					"body": "{\"id\":3,\"value\":{\"Value\":42}}"
+				}
+			]
 		},
 		{
 			"name": "vote-set Pending",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(JSON.stringify(JSON.parse(pm.response.text()))).to.include(\"\\\"value\\\":\\\"Pending\\\"\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "localhost:8080/voting/1/vote/4/set_vote",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"value\": \"Pending\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/voting/1/vote/4/set_vote",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting",
+						"1",
+						"vote",
+						"4",
+						"set_vote"
+					]
+				}
 			},
-			"response": []
+			"response": [
+				{
+					"id": "960edc61-f322-4833-b6a7-7c06e98d30dd",
+					"name": "vote-set Pending",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"Pending\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/voting/1/vote/4/set_vote",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"voting",
+								"1",
+								"vote",
+								"4",
+								"set_vote"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "25",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Thu, 30 May 2019 07:30:47 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						}
+					],
+					"cookie": [],
+					"responseTime": 22,
+					"body": "{\"id\":4,\"value\":\"Coffee\"}"
+				}
+			]
 		},
 		{
 			"name": "voting-get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Valid Json\", function () {",
+							"    pm.expect(JSON.parse(pm.response.text())).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Contains votes array\", function () {",
+							"    var json = JSON.parse(pm.response.text());",
+							"    pm.expect(json.votes).to.be.an('array');",
+							"});",
+							"",
+							"pm.test(\"Votes array is not empty\", function () {",
+							"    var json = JSON.parse(pm.response.text());",
+							"    pm.expect(json.votes).to.be.an('array').that.is.not.empty;",
+							"});",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "localhost:8080/voting/1",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"value\": \"Coffee\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/voting/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting",
+						"1"
+					]
+				}
 			},
-			"response": []
+			"response": [
+				{
+					"id": "edfca56d-e8d3-4f8a-8b0c-150a041cfab8",
+					"name": "voting-get",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/voting/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"voting",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "207",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Thu, 30 May 2019 09:06:40 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						}
+					],
+					"cookie": [],
+					"responseTime": 531,
+					"body": "{\"id\":1,\"start_datetime\":\"2019-05-30T08:51:53.523174900Z\",\"votes\":[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":\"Pending\"},{\"id\":4,\"value\":{\"Value\":8}},{\"id\":5,\"value\":{\"Value\":13}}]}"
+				}
+			]
+		},
+		{
+			"name": "voting-get-votes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Valid Json\", function () {",
+							"    pm.expect(JSON.parse(pm.response.text())).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Contains array as root element\", function () {",
+							"    var json = JSON.parse(pm.response.text());",
+							"    pm.expect(json).to.be.an('array');",
+							"});",
+							"",
+							"pm.test(\"Array is not empty\", function () {",
+							"    var json = JSON.parse(pm.response.text());",
+							"    pm.expect(json).to.be.an('array').that.is.not.empty;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/voting/1/votes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting",
+						"1",
+						"votes"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "dd6dba18-c5b4-47bb-8bf7-a06783c629f7",
+					"name": "voting-get-votes",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/voting/1/votes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"voting",
+								"1",
+								"votes"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "140",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Thu, 30 May 2019 09:06:18 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						}
+					],
+					"cookie": [],
+					"responseTime": 535,
+					"body": "[{\"id\":1,\"value\":\"Pending\"},{\"id\":2,\"value\":\"Coffee\"},{\"id\":3,\"value\":\"Pending\"},{\"id\":4,\"value\":{\"Value\":8}},{\"id\":5,\"value\":{\"Value\":13}}]"
+				}
+			]
+		},
+		{
+			"name": "voting-create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Valid Json\", function () {",
+							"    pm.expect(JSON.parse(pm.response.text())).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Contains empty votes array\", function () {",
+							"    var json = JSON.parse(pm.response.text());",
+							"    pm.expect(json.votes).to.be.an('array').that.is.empty;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Coffee\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/voting",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting"
+					]
+				}
+			},
+			"response": [
+				{
+					"id": "5205e95d-bfb2-4b57-ac81-57e2034bf9a7",
+					"name": "voting-create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": \"Coffee\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/voting",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"voting"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "69",
+							"name": "content-length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "date",
+							"value": "Thu, 30 May 2019 09:02:58 GMT",
+							"name": "date",
+							"description": "The date and time that the message was sent"
+						}
+					],
+					"cookie": [],
+					"responseTime": 42,
+					"body": "{\"id\":8,\"start_datetime\":\"2019-05-30T09:02:58.049504100Z\",\"votes\":[]}"
+				}
+			]
 		}
 	]
 }
