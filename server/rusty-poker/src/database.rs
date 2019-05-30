@@ -9,7 +9,7 @@ pub trait PokerDatabase {
 
     fn get_voting(&self, voting_id: i32) -> Option<Voting>;
 
-    // fn create_voting() -> Result<Vote, ()> {
+    fn create_voting(&mut self) -> Result<Voting, ()>;
 }
 
 pub struct MockDatabase {
@@ -108,5 +108,24 @@ impl PokerDatabase for MockDatabase {
 
     fn get_voting(&self, voting_id: i32) -> Option<Voting> {
         self.votings.iter().find(|&x| x.id == voting_id).cloned()
+    }
+
+    fn create_voting(&mut self) -> Result<Voting, ()> {
+        let voting_id = match self
+            .votings
+            .iter()
+            .max_by_key(|x| x.id) {
+                Some(voting) => voting.id + 1,
+                _ => 1
+            };
+
+        let voting = Voting::new(
+                voting_id,
+                Utc::now(),
+                Vec::<Vote>::new(),
+            );
+
+        self.votings.push(voting.clone());
+        Ok(voting)
     }
 }

@@ -37,6 +37,17 @@ fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Arc<Mutex<
     }
 }
 
+fn voting_create(data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+    let voting = data
+        .lock()
+        .unwrap()
+        .create_voting();
+    match voting {
+        Ok(voting) => HttpResponse::Ok().json(voting),
+        Err(_msg) => HttpResponse::InternalServerError().finish(),
+    }
+}
+
 fn voting_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_voting(voting_id);
@@ -46,7 +57,7 @@ fn voting_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpRe
     }
 }
 
-fn voting_votes_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+fn voting_get_votes(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_votes(voting_id);
     match votes {
@@ -68,11 +79,9 @@ fn main() -> std::io::Result<()> {
             .service(resource("/hello").route(web::get().to(hello_get)))
             .service(resource("/version").route(web::get().to(version_get)))
             .service(resource("/voting/{id}").route(web::get().to(voting_get)))
-            .service(resource("/voting/{id}/votes").route(web::get().to(voting_votes_get)))
-            .service(
-                resource("/voting/{voting_id}/vote/{vote_id}/set_vote")
-                    .route(web::post().to(vote_set)),
-            )
+            .service(resource("/voting/{id}/votes").route(web::get().to(voting_get_votes)))
+            .service(resource("/voting").route(web::post().to(voting_create)))
+            .service(resource("/voting/{voting_id}/vote/{vote_id}/set_vote").route(web::post().to(vote_set)))
     })
     .bind("127.0.0.1:8080")
     .unwrap()
