@@ -4,10 +4,12 @@ use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 
 use serde::{Deserialize};
 
+use env_logger;
+
 use rusty_poker::database::{MockDatabase, PokerDatabase};
 use rusty_poker::poker::VoteValue;
 
-use std::sync::Mutex;
+use std::sync::{Mutex, Arc};
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -24,7 +26,7 @@ struct SetVote {
     value: VoteValue,
 }
 
-fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
+fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let vote = data
         .lock()
         .unwrap()
@@ -35,7 +37,7 @@ fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Mutex<Mock
     }
 }
 
-fn voting_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
+fn voting_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_voting(voting_id);
     match votes {
@@ -44,7 +46,7 @@ fn voting_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpRespons
     }
 }
 
-fn voting_votes_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpResponse {
+fn voting_votes_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_votes(voting_id);
     match votes {
@@ -54,10 +56,15 @@ fn voting_votes_get(params: Path<i32>, data: Data<Mutex<MockDatabase>>) -> HttpR
 }
 
 fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
+    std::env::set_var("RUST_LOG", "actix_web=info");
+    env_logger::init();
+    
+    let data = Arc::new(Mutex::new(MockDatabase::new()));
+
+    HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
-            .data(Mutex::new(MockDatabase::new()))
+            .data(data.clone())
             .service(resource("/hello").route(web::get().to(hello_get)))
             .service(resource("/version").route(web::get().to(version_get)))
             .service(resource("/voting/{id}").route(web::get().to(voting_get)))

@@ -11,3 +11,5 @@ actix-web = "1.0.0-rc"
 serde = { version = "1.0", features = ["derive"] }
 rusty-poker = { path = "../rusty-poker" }
 chrono = "0.4.6"
+log = "0.4.0"
+env_logger = "0.6.1"
