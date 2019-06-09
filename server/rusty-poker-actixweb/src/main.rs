@@ -4,6 +4,8 @@ use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 
 use serde::{Deserialize};
 
+use uuid::{Uuid};
+
 use env_logger;
 
 use rusty_poker::database::{MockDatabase, PokerDatabase};
@@ -23,14 +25,16 @@ fn version_get() -> impl Responder {
 
 #[derive(Deserialize)]
 struct SetVoteCommand {
+    voting_uuid: Uuid,
+    voter_uuid: Uuid,
     value: VoteValue,
 }
 
-fn vote_set(params: Path<(i32, i32)>, body: Json<SetVoteCommand>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+fn vote_set(body: Json<SetVoteCommand>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let vote = data
         .lock()
         .unwrap()
-        .set_vote_value(params.0, params.1, body.value);
+        .set_vote_value(body.voting_uuid, body.voter_uuid, body.value);
     match vote {
         Ok(vote) => HttpResponse::Ok().json(vote),
         Err(msg) => HttpResponse::UnprocessableEntity().body(msg),
@@ -39,21 +43,24 @@ fn vote_set(params: Path<(i32, i32)>, body: Json<SetVoteCommand>, data: Data<Arc
 
 #[derive(Deserialize)]
 struct CreateVotingCommand {
+    host_uuid: Uuid,
     title: String,
 }
 
 fn voting_create(body: Json<CreateVotingCommand>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+    let command = body.into_inner();
+    
     let voting = data
         .lock()
         .unwrap()
-        .create_voting(body.into_inner().title);
+        .create_voting(command.host_uuid, command.title);
     match voting {
         Ok(voting) => HttpResponse::Ok().json(voting),
         Err(_msg) => HttpResponse::InternalServerError().finish(),
     }
 }
 
-fn voting_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+fn voting_get(params: Path<Uuid>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_voting(voting_id);
     match votes {
@@ -62,7 +69,7 @@ fn voting_get(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpRe
     }
 }
 
-fn voting_get_votes(params: Path<i32>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+fn voting_get_votes(params: Path<Uuid>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting_id = params.into_inner();
     let votes = data.lock().unwrap().get_votes(voting_id);
     match votes {

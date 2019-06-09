@@ -13,3 +13,4 @@ rusty-poker = { path = "../rusty-poker" }
 chrono = "0.4.6"
 log = "0.4.0"
 env_logger = "0.6.1"
+uuid = { version = "0.7", features = ["serde", "v4"] }
