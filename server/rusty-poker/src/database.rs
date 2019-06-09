@@ -1,15 +1,21 @@
-use crate::poker::{Vote, VoteValue, Voting};
+use crate::poker::{Vote, VoteValue, Voting, VotingState};
 use chrono::prelude::*;
 use time::Duration;
+use uuid::Uuid;
 
 pub trait PokerDatabase {
-    fn set_vote_value(&mut self, voting_id: i32, vote_id: i32, value: VoteValue) -> Result<Vote, String>;
+    fn set_vote_value(
+        &mut self,
+        voting_id: i32,
+        vote_id: i32,
+        value: VoteValue,
+    ) -> Result<Vote, String>;
 
     fn get_votes(&self, voting_id: i32) -> Option<Vec<Vote>>;
 
     fn get_voting(&self, voting_id: i32) -> Option<Voting>;
 
-    fn create_voting(&mut self) -> Result<Voting, ()>;
+    fn create_voting(&mut self, title: String) -> Result<Voting, ()>;
 }
 
 pub struct MockDatabase {
@@ -29,6 +35,9 @@ impl MockDatabase {
                     Vote::new(4, VoteValue::Value(8)),
                     Vote::new(5, VoteValue::Value(13)),
                 ],
+                "Create new log in page".to_string(),
+                VotingState::InProgress,
+                Uuid::new_v4(),
             ),
             Voting::new(
                 2,
@@ -40,6 +49,9 @@ impl MockDatabase {
                     Vote::new(9, VoteValue::Pending),
                     Vote::new(10, VoteValue::Pending),
                 ],
+                "Rework security implementation".to_string(),
+                VotingState::InProgress,
+                Uuid::new_v4(),
             ),
             Voting::new(
                 3,
@@ -51,6 +63,9 @@ impl MockDatabase {
                     Vote::new(14, VoteValue::Value(13)),
                     Vote::new(15, VoteValue::Value(8)),
                 ],
+                "Update database to new major version".to_string(),
+                VotingState::Closed,
+                Uuid::new_v4(),
             ),
             Voting::new(
                 4,
@@ -62,6 +77,9 @@ impl MockDatabase {
                     Vote::new(19, VoteValue::Value(21)),
                     Vote::new(20, VoteValue::Pending),
                 ],
+                "Remove all code smells".to_string(),
+                VotingState::InProgress,
+                Uuid::new_v4(),
             ),
         ];
         // assert!(mock_votings.iter().map(|&x| x.id))
@@ -72,25 +90,29 @@ impl MockDatabase {
 }
 
 impl PokerDatabase for MockDatabase {
-    fn set_vote_value(&mut self, voting_id: i32, vote_id: i32, value: VoteValue) -> Result<Vote, String> {
-        let voting = self
-            .votings
-            .iter_mut()
-            .find(|x| x.id == voting_id);
+    fn set_vote_value(
+        &mut self,
+        voting_id: i32,
+        vote_id: i32,
+        value: VoteValue,
+    ) -> Result<Vote, String> {
+        let voting = self.votings.iter_mut().find(|x| x.id == voting_id);
 
         let voting = match voting {
             Some(voting) => voting,
-            _ => return Err(format!("Cannot find voting with id '{}'", voting_id))
+            _ => return Err(format!("Cannot find voting with id '{}'", voting_id)),
         };
 
-        let vote = voting
-            .votes
-            .iter_mut()
-            .find(|x| x.id == vote_id);
+        let vote = voting.votes.iter_mut().find(|x| x.id == vote_id);
 
         let vote = match vote {
             Some(vote) => vote,
-            _ => return Err(format!("Cannot find vote with id '{}' inside voting '{}'", vote_id, voting_id))
+            _ => {
+                return Err(format!(
+                    "Cannot find vote with id '{}' inside voting '{}'",
+                    vote_id, voting_id
+                ))
+            }
         };
 
         vote.set_vote(value);
@@ -110,20 +132,20 @@ impl PokerDatabase for MockDatabase {
         self.votings.iter().find(|&x| x.id == voting_id).cloned()
     }
 
-    fn create_voting(&mut self) -> Result<Voting, ()> {
-        let voting_id = match self
-            .votings
-            .iter()
-            .max_by_key(|x| x.id) {
-                Some(voting) => voting.id + 1,
-                _ => 1
-            };
+    fn create_voting(&mut self, title: String) -> Result<Voting, ()> {
+        let voting_id = match self.votings.iter().max_by_key(|x| x.id) {
+            Some(voting) => voting.id + 1,
+            _ => 1,
+        };
 
         let voting = Voting::new(
-                voting_id,
-                Utc::now(),
-                Vec::<Vote>::new(),
-            );
+            voting_id,
+            Utc::now(),
+            Vec::<Vote>::new(),
+            title,
+            VotingState::Waiting,
+            Uuid::new_v4()
+        );
 
         self.votings.push(voting.clone());
         Ok(voting)

@@ -22,11 +22,11 @@ fn version_get() -> impl Responder {
 }
 
 #[derive(Deserialize)]
-struct SetVote {
+struct SetVoteCommand {
     value: VoteValue,
 }
 
-fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+fn vote_set(params: Path<(i32, i32)>, body: Json<SetVoteCommand>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let vote = data
         .lock()
         .unwrap()
@@ -37,11 +37,16 @@ fn vote_set(params: Path<(i32, i32)>, body: Json<SetVote>, data: Data<Arc<Mutex<
     }
 }
 
-fn voting_create(data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
+#[derive(Deserialize)]
+struct CreateVotingCommand {
+    title: String,
+}
+
+fn voting_create(body: Json<CreateVotingCommand>, data: Data<Arc<Mutex<MockDatabase>>>) -> HttpResponse {
     let voting = data
         .lock()
         .unwrap()
-        .create_voting();
+        .create_voting(body.into_inner().title);
     match voting {
         Ok(voting) => HttpResponse::Ok().json(voting),
         Err(_msg) => HttpResponse::InternalServerError().finish(),

@@ -1,5 +1,6 @@
 use chrono::prelude::*;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
 pub enum VoteValue {
@@ -14,11 +15,21 @@ pub struct Vote {
     pub value: VoteValue,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Copy)]
+pub enum VotingState {
+    Closed,
+    InProgress,
+    Waiting
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Voting {
     pub id: i32,
     pub start_datetime: DateTime<Utc>,
     pub votes: Vec<Vote>,
+    pub title: String,
+    pub state: VotingState,
+    pub uuid: Uuid,
 }
 
 impl Vote {
@@ -35,11 +46,21 @@ impl Vote {
 }
 
 impl Voting {
-    pub fn new(id: i32, start_datetime: DateTime<Utc>, votes: Vec<Vote>) -> Voting {
+    pub fn new(
+        id: i32,
+        start_datetime: DateTime<Utc>,
+        votes: Vec<Vote>,
+        title: String,
+        state: VotingState,
+        uuid: Uuid,
+    ) -> Voting {
         Voting {
             id: id,
             start_datetime: start_datetime,
             votes: votes,
+            title: title,
+            state: state,
+            uuid: uuid,
         }
     }
 }
