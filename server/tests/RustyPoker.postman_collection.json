@@ -11,13 +11,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "c22a3381-a157-4c5a-afdd-f1769c6a1877",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    pm.expect(JSON.stringify(JSON.parse(pm.response.text()))).to.include(\"\\\"value\\\":{\\\"Value\\\":42}\");",
 							"});",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -31,20 +32,19 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"value\": {\n\t    \"Value\": 42\n\t}\n}"
+					"raw": "{\n\t\"voter_uuid\": \"021c5fd1-f63b-46fd-adfb-c3d05b1a0bc1\",\n\t\"value\": {\n\t    \"Value\": 42\n\t}\n}"
 				},
 				"url": {
-					"raw": "localhost:8080/voting/1/vote/3/set_vote",
+					"raw": "localhost:8080/voting/4452b3fe-b41b-47af-9e8e-e95a53c9da12/vote/",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"voting",
-						"1",
+						"4452b3fe-b41b-47af-9e8e-e95a53c9da12",
 						"vote",
-						"3",
-						"set_vote"
+						""
 					]
 				}
 			},
@@ -112,13 +112,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "9af3eb94-f596-43cc-808a-f6c6ef89fc24",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {",
 							"    pm.expect(JSON.stringify(JSON.parse(pm.response.text()))).to.include(\"\\\"value\\\":\\\"Pending\\\"\");",
 							"});",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -132,20 +133,18 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"value\": \"Pending\"\n}"
+					"raw": "{\n\t\"voter_uuid\": \"30bb18cb-d1b3-4225-afe9-ec10fa5d4c49\",\n\t\"value\": \"Pending\"\n}"
 				},
 				"url": {
-					"raw": "localhost:8080/voting/1/vote/4/set_vote",
+					"raw": "localhost:8080/voting/4452b3fe-b41b-47af-9e8e-e95a53c9da12/vote",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"voting",
-						"1",
-						"vote",
-						"4",
-						"set_vote"
+						"4452b3fe-b41b-47af-9e8e-e95a53c9da12",
+						"vote"
 					]
 				}
 			},
@@ -213,7 +212,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "33fe3886-5998-435c-816c-876f141cca62",
 						"exec": [
 							"pm.test(\"Valid Json\", function () {",
 							"    pm.expect(JSON.parse(pm.response.text())).to.not.equal(null);",
@@ -229,7 +228,8 @@
 							"    pm.expect(json.votes).to.be.an('array').that.is.not.empty;",
 							"});",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -242,14 +242,14 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/voting/1",
+					"raw": "localhost:8080/voting/4452b3fe-b41b-47af-9e8e-e95a53c9da12",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"voting",
-						"1"
+						"4452b3fe-b41b-47af-9e8e-e95a53c9da12"
 					]
 				}
 			},
@@ -310,7 +310,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "9381e4d9-e68d-415e-9e94-ce34db17dd56",
 						"exec": [
 							"pm.test(\"Valid Json\", function () {",
 							"    pm.expect(JSON.parse(pm.response.text())).to.not.equal(null);",
@@ -326,7 +326,8 @@
 							"    pm.expect(json).to.be.an('array').that.is.not.empty;",
 							"});",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -339,14 +340,14 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/voting/1/votes",
+					"raw": "localhost:8080/voting/4452b3fe-b41b-47af-9e8e-e95a53c9da12/votes",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"voting",
-						"1",
+						"4452b3fe-b41b-47af-9e8e-e95a53c9da12",
 						"votes"
 					]
 				}
@@ -445,7 +446,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Create search service\"\n}"
+					"raw": "{\n\t\"host_uuid\": \"a9064385-ebc6-4790-a0b6-d75183d77481\",\n\t\"title\": \"Create search service\"\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/voting",
@@ -505,6 +506,69 @@
 					"body": "{\n    \"id\": 5,\n    \"start_datetime\": \"2019-06-09T16:22:19.884281400Z\",\n    \"votes\": [],\n    \"title\": \"Create search service\",\n    \"state\": \"Waiting\",\n    \"uuid\": \"d965a2e9-ee1c-4cfb-b900-9408c095bc2f\"\n}"
 				}
 			]
+		},
+		{
+			"name": "user-create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"BeThere\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voting-join",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_uuid\": \"0cea304f-1778-4ce3-97fd-40584fc5315c\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/voting/4452b3fe-b41b-47af-9e8e-e95a53c9da12/join",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"voting",
+						"4452b3fe-b41b-47af-9e8e-e95a53c9da12",
+						"join"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

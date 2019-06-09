@@ -1,0 +1,27 @@
+{
+  "name": "rusty-poker-api-tests",
+  "version": "0.1.0",
+  "description": "API tests for Rusty Poker",
+  "main": "index.js",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chakram": "^1.5.0",
+    "mocha": "^6.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "scripts": {
+    "test": "mocha src/**/*.spec.js",
+    "test-watch": "mocha src/**/*.spec.js --watch"
+  },
+  "author": "bider.daniel@gmail.com",
+  "license": "ISC"
+}

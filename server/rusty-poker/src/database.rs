@@ -15,7 +15,11 @@ pub trait PokerDatabase {
 
     fn get_voting(&self, voting_uuid: Uuid) -> Option<Voting>;
 
-    fn create_voting(&mut self, host_uuid: Uuid, title: String) -> Result<Voting, ()>;
+    fn create_voting(&mut self, host_uuid: Uuid, title: String) -> Result<Voting, String>;
+
+    fn create_user(&mut self, name: String) -> Result<User, String>;
+
+    fn join_voting(&mut self, user_uuid: Uuid, voting_uuid: Uuid) -> Result<Vote, String>;
 }
 
 pub struct MockDatabase {
@@ -27,37 +31,37 @@ impl MockDatabase {
     pub fn new() -> MockDatabase {
         let mock_users = vec![
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("30bb18cb-d1b3-4225-afe9-ec10fa5d4c49").unwrap(),
                 "Pan Paweł".to_string(),
                 Utc::now() - Duration::minutes(110),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("021c5fd1-f63b-46fd-adfb-c3d05b1a0bc1").unwrap(),
                 "Daniel".to_string(),
                 Utc::now() - Duration::minutes(420),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("4a36252a-e282-4a72-bb2d-e04a9375e6b4").unwrap(),
                 "Mathew".to_string(),
                 Utc::now() - Duration::minutes(60),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("4223d56b-980d-401f-bab5-a78f37aa4bb4").unwrap(),
                 "XxX_Xander_XxX".to_string(),
                 Utc::now() - Duration::minutes(59),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("14301ee4-6563-40dd-8230-8f64d8c3c315").unwrap(),
                 "Pat!1999".to_string(),
                 Utc::now() - Duration::minutes(61),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("a9064385-ebc6-4790-a0b6-d75183d77481").unwrap(),
                 "John ☺ ☻".to_string(),
                 Utc::now() - Duration::minutes(1240),
             ),
             User::new(
-                Uuid::new_v4(),
+                Uuid::parse_str("0cea304f-1778-4ce3-97fd-40584fc5315c").unwrap(),
                 "Some guy".to_string(),
                 Utc::now() - Duration::minutes(5236),
             ),
@@ -75,7 +79,7 @@ impl MockDatabase {
                 ],
                 "Create new log in page".to_string(),
                 VotingState::InProgress,
-                Uuid::new_v4(),
+                Uuid::parse_str("4452b3fe-b41b-47af-9e8e-e95a53c9da12").unwrap(),
                 mock_users[3].uuid(),
             ),
             Voting::new(
@@ -89,7 +93,7 @@ impl MockDatabase {
                 ],
                 "Rework security implementation".to_string(),
                 VotingState::InProgress,
-                Uuid::new_v4(),
+                Uuid::parse_str("bbd5b87d-74ac-438a-98d8-c060d9201419").unwrap(),
                 mock_users[0].uuid(),
             ),
             Voting::new(
@@ -103,7 +107,7 @@ impl MockDatabase {
                 ],
                 "Update database to new major version".to_string(),
                 VotingState::Closed,
-                Uuid::new_v4(),
+                Uuid::parse_str("c577e70e-4730-4b20-800b-cf28027bc512").unwrap(),
                 mock_users[2].uuid(),
             ),
             Voting::new(
@@ -117,7 +121,7 @@ impl MockDatabase {
                 ],
                 "Remove all code smells".to_string(),
                 VotingState::InProgress,
-                Uuid::new_v4(),
+                Uuid::parse_str("d9836573-f46d-4fe7-ad19-fd9432031869").unwrap(),
                 mock_users[4].uuid(),
             ),
         ];
@@ -178,7 +182,7 @@ impl PokerDatabase for MockDatabase {
             .cloned()
     }
 
-    fn create_voting(&mut self, host_uuid: Uuid, title: String) -> Result<Voting, ()> {
+    fn create_voting(&mut self, host_uuid: Uuid, title: String) -> Result<Voting, String> {
         let voting = Voting::new(
             Utc::now(),
             Vec::<Vote>::new(),
@@ -191,5 +195,36 @@ impl PokerDatabase for MockDatabase {
         self.votings.push(voting.clone());
 
         Ok(voting)
+    }
+
+    fn create_user(&mut self, name: String) -> Result<User, String> {
+        let user = User::new(Uuid::new_v4(), name, Utc::now());
+
+        self.users.push(user.clone());
+
+        Ok(user)
+    }
+
+    fn join_voting(&mut self, user_uuid: Uuid, voting_uuid: Uuid) -> Result<Vote, String> {
+        let _user = match self.users.iter().find(|x| x.uuid() == user_uuid) {
+            Some(user) => user,
+            None => return Err(format!("Cannot find user with uuid '{}'", user_uuid)),
+        };
+
+        let voting = match self.votings.iter_mut().find(|x| x.uuid() == voting_uuid) {
+            Some(voting) => voting,
+            None => return Err(format!("Cannot find voting with uuid '{}'", voting_uuid)),
+        };
+
+        let vote = match voting.votes().iter().find(|x| x.voter_uuid() == user_uuid) {
+            Some(vote) => vote.clone(),
+            None => {
+                let vote = Vote::new(VoteValue::Pending, user_uuid);
+                voting.votes_mut().push(vote.clone());
+                vote
+            }
+        };
+
+        Ok(vote)
     }
 }
